@@ -1,6 +1,7 @@
-from Character import Character, Ability, ProficiencyRank
+from Character import Character, Ability, ProficiencyRank, Skill
 import pytest
 
+# --- Ability Boosts---
 def test_boost_below_threshold():
     c = Character("Test")
     c.abilities[Ability.STR] = 6 # a +3 mod
@@ -20,6 +21,8 @@ def test_boost_two_half_points_is_full():
     c.boost(Ability.STR)
     assert c.abilities[Ability.STR] == 10
     assert c.modifier(Ability.STR) == 5 # now a +5 mod
+
+# --- Prof Ranks ---
 
 def test_untrained_ignores_level():
     assert ProficiencyRank.Untrained.bonus(1) == 0
@@ -46,3 +49,28 @@ def test_rank_bonus_uses_character_level():
 ])
 def test_proficiency_bonus(rank, level, expected):
     assert rank.bonus(level) == expected
+
+# --- Skills ---
+
+def test_all_skills_default_to_untrained():
+    c = Character("Test")
+    assert all(rank == ProficiencyRank.Untrained
+               for rank in c.proficiencies.values())
+    assert set(c.proficiencies) == set(Skill)
+def test_skill_bonus_trained():
+    c = Character("Test", level=3)
+    c.abilities[Ability.DEX] = 4 # a +2mod
+    c.proficiencies[Skill.ACROBATICS] = ProficiencyRank.Trained
+    assert c.skill_bonus(Skill.ACROBATICS) == 7 #2+(3+2)
+
+def test_skill_bous_untrained_is_just_ability_mod():
+    c = Character("Test", level=3)
+    c.abilities[Ability.DEX] = 4
+    assert c.skill_bonus(Skill.ACROBATICS) == 2 #2=0, level ignored
+
+def test_skill_bonus_uses_the_skills_key_ability():
+    c = Character("Test", level=1)
+    c.abilities[Ability.INT] = 6 # +3 Mod
+    c.abilities[Ability.STR] = 0 # +0 Mod
+    assert c.skill_bonus(Skill.ARCANA) == 3 #Int-Based
+    assert c.skill_bonus(Skill.ATHLETICS) ==0 #STR-Based
