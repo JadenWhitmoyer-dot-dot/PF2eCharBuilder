@@ -77,7 +77,7 @@ class ClassDef:
     hp_per_level: int
     key_abilities: list[Ability]
     perception: ProficiencyRank
-    saves: list[ProficiencyRank]
-    trained: list
+    saves: dict[Skill, ProficiencyRank]
+    trained_skills: list[Skill]
     skill_choices: list[Skill]
-    acrobatics: str
+    skill_options: list[Skill]
