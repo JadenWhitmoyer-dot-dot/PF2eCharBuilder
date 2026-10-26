@@ -1,4 +1,4 @@
-from Character import Character, Ability, ProficiencyRank, Skill
+from pf2e.models import Character, Ability, ProficiencyRank, Skill
 import pytest
 
 # --- Ability Boosts---

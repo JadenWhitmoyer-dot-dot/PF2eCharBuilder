@@ -1,0 +1,11 @@
+name: Fighter
+hp_per_level: 10
+key_abilities: [STR, DEX]
+perception: Expert
+saves:
+  fortitude: Expert
+  reflex: Trained
+  will: Trained
+trained_skills: [] # Fixed skills the class grants
+skill_choices: 3 # extra trained skills, plus Int mod
+skill_options: [ACROBATICS, ATHLETICS]

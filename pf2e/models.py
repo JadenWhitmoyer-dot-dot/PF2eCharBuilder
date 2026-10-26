@@ -1,6 +1,7 @@
 from dataclasses import dataclass, field
 from enum import Enum, IntEnum
 
+
 class Ability(Enum):
     STR = "strength"
     DEX = "dexterity"
@@ -70,3 +71,13 @@ class Character:
         ability_mod = self.modifier(skill.key_ability)
         rank = self.proficiencies[skill]
         return ability_mod + rank.bonus(self.level)
+@dataclass
+class ClassDef:
+    name: str
+    hp_per_level: int
+    key_abilities: list[Ability]
+    perception: ProficiencyRank
+    saves: list[ProficiencyRank]
+    trained: list
+    skill_choices: list[Skill]
+    acrobatics: str
